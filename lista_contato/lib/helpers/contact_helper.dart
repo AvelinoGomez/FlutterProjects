@@ -76,7 +76,7 @@ class ContactHelper {
     for(Map m in listMap){
       listContact.add(Contact.fromMap(m));
     }
-    return listMap;
+    return listContact;
   }
 
   Future<int> getNumber() async {
@@ -99,7 +99,7 @@ class Contact {
   String phone;
   String img;
 
-  Contact(){};
+  Contact();
 
   Contact.fromMap(Map map){
     id = map[idColumn];
