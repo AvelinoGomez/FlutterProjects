@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart' as prefix0;
 import 'package:lista_contato/helpers/contact_helper.dart';
 import 'package:lista_contato/ui/contact_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -208,6 +210,62 @@ class _HomePageState extends State<HomePage> {
         break;
     }
     setState(() {});
+  }
+
+  Future<File> _showOptions(BuildContext context) async {
+    showModalBottomSheet(
+        context: context,
+        builder: (context){
+          return BottomSheet(
+            onClosing: () {},
+            builder: (context){
+              return Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: FlatButton(
+                        child: Text("Galeria",style: TextStyle(color: Colors.red, fontSize: 20),),
+                        onPressed: (){
+                          Navigator.pop(context);
+
+                          ImagePicker.pickImage(source: ImageSource.gallery).then((file) {
+                            if(file == null) return;
+
+                            setState(() {
+                              return file.path;
+                            });
+
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: FlatButton(
+                        child: Text("Camera",style: TextStyle(color: Colors.red, fontSize: 20),),
+                        onPressed: (){
+                          ImagePicker.pickImage(source: ImageSource.camera).then((file) {
+                            if(file == null) return;
+
+                            setState(() {
+                              _editedContact.img = file.path;
+                            });
+
+                          });
+                        },
+                      ),
+                    ),
+
+                  ],
+                ),
+              );
+            },
+          );
+        }
+    );
   }
 
 }
